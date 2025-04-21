@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Love You Zain ul Ain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #ff4e50, #fc913a, #f9d423, #eaeaea);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      color: white;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .page {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
+      transition: all 1s ease;
+      padding: 20px;
+    }
+
+    .page.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .heart {
+      width: 150px;
+      height: 135px;
+      position: relative;
+      transform: rotate(-45deg);
+      animation: beat 1s infinite;
+      margin-bottom: 30px;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -75px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 75px;
+      top: 0;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.1); }
+    }
+
+    .typewriter {
+      font-family: 'Great Vibes', cursive;
+      font-size: 36px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid white;
+      animation: typing 3s steps(30, end), blink 0.75s step-end infinite;
+      max-width: 90%;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 14px 28px;
+      background: #ff0066;
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #e6005c;
+      transform: scale(1.1);
+    }
+
+    .quote {
+      font-style: italic;
+      font-size: 24px;
+      animation: fadeIn 2s ease;
+      margin-bottom: 20px;
+    }
+
+    .counter {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .glow-text {
+      font-size: 32px;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff1493, 0 0 30px #ff1493;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Page 1 -->
+  <div class="page active" id="page1">
+    <div class="heart"></div>
+    <div class="typewriter">Love You Zain ul Ain 💖</div>
+    <button onclick="goToPage(2)">Love Me</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="page" id="page2">
+    <div class="quote">"You are very special to me..."</div>
+    <div class="quote">"My heart has loved you for 4 years and will never stop."</div>
+    <button onclick="goToPage(3)">Next</button>
+  </div>
+
+  <!-- Page 3 -->
+  <div class="page" id="page3">
+    <div style="font-size: 26px; margin-bottom: 10px;">It's been 4 years of smiles, love & memories 🥰</div>
+    <div class="counter" id="loveCounter"></div>
+    <button onclick="goToPage(4)">Final Surprise</button>
+  </div>
+
+  <!-- Page 4 -->
+  <div class="page" id="page4">
+    <canvas class="confetti" id="confetti-canvas"></canvas>
+    <div class="glow-text">You’ll always be the one I love ❤️</div>
+    <button onclick="goToPage(1)">Start Again</button>
+  </div>
+
+  <script>
+    function goToPage(n) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + n).classList.add('active');
+
+      if (n === 4) startConfetti();
+    }
+
+    // Love duration counter
+    function updateLoveCounter() {
+      const startDate = new Date("2020-04-01");
+      const now = new Date();
+      const diff = now - startDate;
+      const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+      const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30)) % 12;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24)) % 30;
+      document.getElementById("loveCounter").innerText =
+        `Love since: ${years} years, ${months} months & ${days} days 💞`;
+    }
+
+    updateLoveCounter();
+
+    // Confetti effect
+    function startConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const confetti = [];
+
+      for (let i = 0; i < 150; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 5 + 2,
+          color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+          tilt: Math.random() * 10 - 10
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach(c => {
+          ctx.beginPath();
+          ctx.lineWidth = c.r;
+          ctx.strokeStyle = c.color;
+          ctx.moveTo(c.x + c.tilt, c.y);
+          ctx.lineTo(c.x, c.y + c.tilt);
+          ctx.stroke();
+        });
+        update();
+      }
+
+      function update() {
+        confetti.forEach(c => {
+          c.y += c.d;
+          c.tilt += Math.random() * 0.5 - 0.25;
+          if (c.y > canvas.height) {
+            c.y = -10;
+            c.x = Math.random() * canvas.width;
+          }
+        });
+      }
+
+      setInterval(draw, 20);
+    }
+  </script>
+</body>
+</html>
